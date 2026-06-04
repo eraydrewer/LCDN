@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SoulSushi</title>
+<title>LacasadelNonno</title>
 
 <style>
 
@@ -153,7 +153,7 @@ button:hover{
 
 <div class="login-box" id="loginBox">
 
-    <h1>🍣 SoulSushi Login</h1>
+    <h1>La Casa Del Nonno Login</h1>
 
     <input type="text" id="username" placeholder="Benutzername">
 
@@ -167,11 +167,11 @@ button:hover{
 
     <div class="top-bar">
         <div class="timer" id="timer">
-            01:00:00
+            01:30:00
         </div>
     </div>
 
-    <h1>🍣 SoulSushi Menü</h1>
+    <h1>La Casa del Nonno Menü</h1>
 
     <div class="categories" id="menu"></div>
 
@@ -186,19 +186,43 @@ button:hover{
 
         <div class="discount-buttons">
 
+            <button onclick="setDiscount(5, this)">
+                5%
+            </button>
+
+            <button onclick="setDiscount(10, this)">
+                10%
+            </button>
+
             <button onclick="setDiscount(15, this)">
                 15%
             </button>
 
-            <button onclick="setDiscount(25, this)">
+            <button onclick="setDiscount(20, this)">
+                20%
+            </button>
+
+             <button onclick="setDiscount(25, this)">
                 25%
             </button>
 
-            <button onclick="setDiscount(30, this)">
+             <button onclick="setDiscount(30, this)">
                 30%
             </button>
 
-            <button onclick="setDiscount(50, this)">
+             <button onclick="setDiscount(35, this)">
+                35%
+            </button>
+
+             <button onclick="setDiscount(40, this)">
+                40%
+            </button>
+
+             <button onclick="setDiscount(45, this)">
+                45%
+            </button>
+
+             <button onclick="setDiscount(50, this)">
                 50%
             </button>
 
@@ -217,16 +241,15 @@ button:hover{
 <script>
 
 const USERNAME = "Mitarbeiter";
-const PASSWORD = "Soulsushi67";
+const PASSWORD = "LacasadelNonno";
 
 const menu = {
 
-    "Sushi": [
-        {name:"Nigiri Sushi", price:120},
-        {name:"Maki Sushi", price:140},
-        {name:"Sashimi Sushi", price:180},
-        {name:"Chirashi Sushi", price:200},
-        {name:"Inari Sushi", price:130}
+    "Bevande": [
+        {name:"Vino della Casa", price:350},
+        {name:"Te Freddo al Limone", price:195},
+        {name:"Cola", price:130},
+        {name:"Energy Drink", price:200}
     ],
 
     "Nachspeise": [
