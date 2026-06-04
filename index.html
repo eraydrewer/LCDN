@@ -247,28 +247,29 @@ const menu = {
 
     "Bevande": [
         {name:"Vino della Casa", price:350},
-        {name:"Te Freddo al Limone", price:195},
-        {name:"Cola", price:130},
-        {name:"Energy Drink", price:200}
+         {name:"Te Freddo al Limone", price:195}
+        {name:"Cola", price:130}
+        
     ],
 
     "Antipasti": [
-        {name:"Antipasto Italiano della Casa", price:110},
         {name:"Bruschetta Classica", price:165}
     ],
 
-    "Hauptspeise": [
-        {name:"Rahmen", price:220},
-        {name:"Kugelfisch", price:500},
-        {name:"Bento", price:250},
-        {name:"Tempura", price:300}
+    "Pasta": [
+        {name:"Spaghetti Carbonara", price:280}
     ],
 
-    "Getränke": [
-        {name:"Grüntee", price:40},
-        {name:"Lychee", price:60},
-        {name:"Wasser", price:20},
-        {name:"Sake", price:120}
+    "Pizza": [
+        {name:"Pizza Margherita", price:250}
+    ],
+
+    "Secondi Piatti": [
+        {name:"Bistecca", price:550}
+    ],
+
+    "Dessert": [
+        {name:"Tiramisu", price:180}
     ]
 
 };
@@ -351,85 +352,53 @@ function logout(){
 function renderMenu(){
 
     const menuDiv = document.getElementById("menu");
-
     menuDiv.innerHTML = "";
 
-    const sushiBox = document.createElement("div");
-    sushiBox.className = "category-box";
+    Object.keys(menu).forEach(category => {
 
-    const sushiTitle = document.createElement("div");
-sushiTitle.className = "category";
-sushiTitle.innerHTML = "Bevande";
+        const categoryBox = document.createElement("div");
+        categoryBox.className = "category-box";
 
-sushiBox.appendChild(sushiTitle);
+        const title = document.createElement("div");
+        title.className = "category";
+        title.innerHTML = category;
 
-menu["Bevande"].forEach((item) => {
+        categoryBox.appendChild(title);
 
-        const div = document.createElement("div");
+        menu[category].forEach(item => {
 
-        div.className = "item";
+            const div = document.createElement("div");
+            div.className = "item";
 
-        div.innerHTML = `
-            <span>${item.name} - $${item.price}</span>
+            div.innerHTML = `
+                <span>${item.name} - €${item.price}</span>
 
-            <div class="action-box">
+                <div class="action-box">
 
-                <input
-                    type="number"
-                    min="0"
-                    value="0"
-                    id="${item.name}-qty"
-                    class="quantity-input"
-                >
+                    <input
+                        type="number"
+                        min="0"
+                        value="0"
+                        id="${item.name}-qty"
+                        class="quantity-input"
+                    >
 
-                <button onclick="addItem('${item.name}', ${item.price})">
-                    Hinzufügen
-                </button>
+                    <button onclick="addItem('${item.name}', ${item.price})">
+                        Hinzufügen
+                    </button>
 
-            </div>
-        `;
+                </div>
+            `;
 
-        sushiBox.appendChild(div);
+            categoryBox.appendChild(div);
 
-    });
+        });
 
-    const dessertTitle = document.createElement("div");
-    dessertTitle.className = "category";
-    dessertTitle.innerHTML = "Pizza";
-
-    sushiBox.appendChild(dessertTitle);
-
-    menu["Nachspeise"].forEach((item) => {
-
-        const div = document.createElement("div");
-
-        div.className = "item";
-
-        div.innerHTML = `
-            <span>${item.name} - $${item.price}</span>
-
-            <div class="action-box">
-
-                <input
-                    type="number"
-                    min="0"
-                    value="0"
-                    id="${item.name}-qty"
-                    class="quantity-input"
-                >
-
-                <button onclick="addItem('${item.name}', ${item.price})">
-                    Hinzufügen
-                </button>
-
-            </div>
-        `;
-
-        sushiBox.appendChild(div);
+        menuDiv.appendChild(categoryBox);
 
     });
 
-    menuDiv.appendChild(sushiBox);
+}
 
     ["Antipasti", "Pasta"].forEach(category => {
 
