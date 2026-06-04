@@ -9,17 +9,17 @@
 body{
     margin:0;
     background:#000;
-    color:#fff;
     font-family:Arial,sans-serif;
+    color:white;
 }
 
 .container{
     max-width:1200px;
     margin:40px auto;
-    padding:25px;
     background:#111;
     border-radius:20px;
-    box-shadow:0 0 25px orange;
+    padding:25px;
+    box-shadow:0 0 30px orange;
 }
 
 h1{
@@ -36,9 +36,8 @@ h1{
     font-weight:bold;
 }
 
-.login-box{
-    max-width:500px;
-    margin:80px auto;
+.hidden{
+    display:none;
 }
 
 input{
@@ -47,16 +46,16 @@ input{
     margin:10px 0;
     border:none;
     border-radius:10px;
+    box-sizing:border-box;
 }
 
 button{
     background:orange;
-    color:black;
     border:none;
-    padding:12px 20px;
     border-radius:10px;
-    cursor:pointer;
+    padding:10px 15px;
     font-weight:bold;
+    cursor:pointer;
 }
 
 button:hover{
@@ -65,14 +64,14 @@ button:hover{
 
 .menu-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
     gap:20px;
 }
 
 .category{
-    background:#1c1c1c;
-    padding:15px;
+    background:#1e1e1e;
     border-radius:15px;
+    padding:15px;
 }
 
 .category h2{
@@ -96,51 +95,73 @@ button:hover{
     border-radius:15px;
 }
 
-.discount-buttons button{
-    margin:5px;
+.order-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#2a2a2a;
+    margin-bottom:8px;
+    padding:8px;
+    border-radius:8px;
 }
 
-.hidden{
-    display:none;
+.delete-btn{
+    background:red;
+    color:white;
+}
+
+.discount-btn.active{
+    border:3px solid white;
+}
+
+.login-box{
+    max-width:500px;
+    margin:80px auto;
 }
 </style>
 </head>
 <body>
 
 <div id="loginPage" class="container login-box">
-    <h1>La Casa del Nonno Login</h1>
 
-    <input id="username" placeholder="Benutzername">
-    <input id="password" type="password" placeholder="Passwort">
+<h1>La Casa del Nonno Login</h1>
 
-    <button onclick="login()">Einloggen</button>
+<input id="username" placeholder="Benutzername">
+<input id="password" type="password" placeholder="Passwort">
+
+<button onclick="login()">Einloggen</button>
+
 </div>
 
 <div id="menuPage" class="container hidden">
 
-    <div class="timer" id="timer">01:30:00</div>
+<div class="timer" id="timer">01:30:00</div>
 
-    <h1>🍝 La Casa del Nonno Menü</h1>
+<h1>🍝 La Casa del Nonno Menü</h1>
 
-    <div class="menu-grid" id="menu"></div>
+<div class="menu-grid" id="menu"></div>
 
-    <div class="summary">
+<div class="summary">
 
-        <h2>Bestellung</h2>
+<h2>Bestellung</h2>
 
-        <div id="orderList"></div>
+<div id="orderList"></div>
 
-        <br>
+<br>
 
-        <h2>Rabatt</h2>
+<h2>Rabatt</h2>
 
-        <div class="discount-buttons" id="discountButtons"></div>
+<div id="discountButtons"></div>
 
-        <h2 id="total">Gesamt: 0€</h2>
+<br>
 
-        <button onclick="finishOrder()">Bestellung abschließen</button>
+<h2 id="total">Gesamt: 0€</h2>
 
-    </div>
+<button onclick="finishOrder()">
+Bestellung abschließen
+</button>
+
+</div>
 
 </div>
 
@@ -150,6 +171,7 @@ const USERNAME="Mitarbeiter";
 const PASSWORD="LacasadelNonno";
 
 const menu = {
+
 "Bevande":[
 ["Vino della Casa",350],
 ["Te Freddo al Limone",195],
@@ -183,28 +205,31 @@ const menu = {
 ["Tiramisu",275],
 ["Panna Cotta ai Lamponi Caldi",110]
 ]
+
 };
 
-let order=[];
+let order={};
 let discount=0;
-let timerInterval;
 
 function login(){
 
-    if(
-        document.getElementById("username").value===USERNAME &&
-        document.getElementById("password").value===PASSWORD
-    ){
+    const user=document.getElementById("username").value;
+    const pass=document.getElementById("password").value;
 
-        document.getElementById("loginPage").classList.add("hidden");
-        document.getElementById("menuPage").classList.remove("hidden");
+    if(user===USERNAME && pass===PASSWORD){
+
+        document.getElementById("loginPage")
+        .classList.add("hidden");
+
+        document.getElementById("menuPage")
+        .classList.remove("hidden");
 
         renderMenu();
         renderDiscounts();
         startTimer();
 
     }else{
-        alert("Falsche Login-Daten");
+        alert("Falsche Login Daten");
     }
 }
 
@@ -214,29 +239,57 @@ function renderMenu(){
 
     for(const category in menu){
 
-        const div=document.createElement("div");
-        div.className="category";
+        const box=document.createElement("div");
 
-        div.innerHTML=`<h2>${category}</h2>`;
+        box.className="category";
+
+        let html=`<h2>${category}</h2>`;
 
         menu[category].forEach(item=>{
 
-            div.innerHTML += `
+            html+=`
             <div class="item">
-                <span>${item[0]} - ${item[1]}€</span>
+
+                <span>
+                ${item[0]} - ${item[1]}€
+                </span>
+
                 <button onclick="addItem('${item[0]}',${item[1]})">
-                    Hinzufügen
+                Hinzufügen
                 </button>
-            </div>`;
+
+            </div>
+            `;
         });
 
-        container.appendChild(div);
+        box.innerHTML=html;
+
+        container.appendChild(box);
     }
 }
 
 function addItem(name,price){
 
-    order.push({name,price});
+    if(!order[name]){
+
+        order[name]={
+            quantity:0,
+            price:price
+        };
+    }
+
+    order[name].quantity++;
+
+    updateOrder();
+}
+
+function removeItem(name){
+
+    order[name].quantity--;
+
+    if(order[name].quantity<=0){
+        delete order[name];
+    }
 
     updateOrder();
 }
@@ -249,60 +302,100 @@ function updateOrder(){
 
     let total=0;
 
-    order.forEach(item=>{
+    Object.keys(order).forEach(name=>{
 
-        total+=item.price;
+        const item=order[name];
+
+        total += item.quantity * item.price;
 
         list.innerHTML += `
-        <div>${item.name} - ${item.price}€</div>`;
+        <div class="order-row">
+
+            <span>
+            ${item.quantity}x ${name}
+            </span>
+
+            <button
+            class="delete-btn"
+            onclick="removeItem('${name}')">
+            ❌
+            </button>
+
+        </div>
+        `;
     });
 
-    total = total - (total*discount/100);
+    total = total - (total * discount / 100);
 
-    document.getElementById("total").innerHTML=
-    `Gesamt: ${total.toFixed(2)}€`;
+    document.getElementById("total").innerHTML =
+    "Gesamt: " + total.toFixed(2) + "€";
 }
 
 function renderDiscounts(){
 
     const box=document.getElementById("discountButtons");
 
-    [5,10,15,20,25,30,35,40,45,50].forEach(p=>{
+    [5,10,15,20,25,30,35,40,45,50].forEach(value=>{
 
         box.innerHTML += `
-        <button onclick="setDiscount(${p})">
-            ${p}%
-        </button>`;
+        <button
+        class="discount-btn"
+        data-discount="${value}"
+        onclick="setDiscount(${value})">
+
+        ${value}%
+
+        </button>
+        `;
     });
 }
 
-function setDiscount(p){
+function setDiscount(value){
 
-    discount=p;
+    if(discount===value){
+        discount=0;
+    }else{
+        discount=value;
+    }
+
+    document
+    .querySelectorAll(".discount-btn")
+    .forEach(btn=>{
+
+        btn.classList.remove("active");
+
+        if(Number(btn.dataset.discount)===discount){
+            btn.classList.add("active");
+        }
+    });
+
     updateOrder();
 }
 
 function finishOrder(){
 
-    if(order.length===0){
-        alert("Keine Produkte ausgewählt");
+    if(Object.keys(order).length===0){
+        alert("Keine Bestellung vorhanden");
         return;
     }
 
-    alert("Bestellung erfolgreich abgeschlossen!");
+    alert("Bestellung erfolgreich abgeschlossen");
 
-    order=[];
+    order={};
     discount=0;
 
-    document.getElementById("orderList").innerHTML="";
-    document.getElementById("total").innerHTML="Gesamt: 0€";
+    updateOrder();
+
+    document
+    .querySelectorAll(".discount-btn")
+    .forEach(btn=>btn.classList.remove("active"));
 }
 
 function startTimer(){
 
     let seconds=5400;
 
-    timerInterval=setInterval(()=>{
+    setInterval(()=>{
 
         seconds--;
 
@@ -311,15 +404,13 @@ function startTimer(){
         const s=seconds%60;
 
         document.getElementById("timer").innerHTML=
-            String(h).padStart(2,"0")+":"+
-            String(m).padStart(2,"0")+":"+
-            String(s).padStart(2,"0");
+        String(h).padStart(2,"0")+":"+
+        String(m).padStart(2,"0")+":"+
+        String(s).padStart(2,"0");
 
         if(seconds<=0){
 
-            clearInterval(timerInterval);
-
-            alert("Sitzung abgelaufen");
+            alert("Automatisch ausgeloggt");
 
             location.reload();
         }
