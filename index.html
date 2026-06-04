@@ -250,11 +250,11 @@ function renderMenu(){
             html+=`
 const inputId = "qty_" + item[0].replaceAll(" ","_");
 
-html+=`
+html += `
 <div class="item">
 
     <span>
-    ${item[0]} - ${item[1]}€
+        ${item[0]} - ${item[1]}€
     </span>
 
     <div style="display:flex;gap:8px;align-items:center;">
@@ -270,13 +270,8 @@ html+=`
         margin:0;
         ">
 
-        <button onclick="
-        addItem(
-            '${item[0]}',
-            ${item[1]},
-            '${inputId}'
-        )">
-        Hinzufügen
+        <button onclick="addItem('${item[0]}',${item[1]},'${inputId}')">
+            Hinzufügen
         </button>
 
     </div>
