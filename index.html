@@ -248,18 +248,41 @@ function renderMenu(){
         menu[category].forEach(item=>{
 
             html+=`
-            <div class="item">
+const inputId = "qty_" + item[0].replaceAll(" ","_");
 
-                <span>
-                ${item[0]} - ${item[1]}€
-                </span>
+html+=`
+<div class="item">
 
-                <button onclick="addItem('${item[0]}',${item[1]})">
-                Hinzufügen
-                </button>
+    <span>
+    ${item[0]} - ${item[1]}€
+    </span>
 
-            </div>
-            `;
+    <div style="display:flex;gap:8px;align-items:center;">
+
+        <input
+        type="number"
+        min="1"
+        value="1"
+        id="${inputId}"
+        style="
+        width:60px;
+        padding:6px;
+        margin:0;
+        ">
+
+        <button onclick="
+        addItem(
+            '${item[0]}',
+            ${item[1]},
+            '${inputId}'
+        )">
+        Hinzufügen
+        </button>
+
+    </div>
+
+</div>
+`;
         });
 
         box.innerHTML=html;
@@ -268,7 +291,10 @@ function renderMenu(){
     }
 }
 
-function addItem(name,price){
+function addItem(name,price,inputId){
+
+    const qty =
+    parseInt(document.getElementById(inputId).value) || 1;
 
     if(!order[name]){
 
@@ -278,18 +304,16 @@ function addItem(name,price){
         };
     }
 
-    order[name].quantity++;
+    order[name].quantity += qty;
+
+    document.getElementById(inputId).value = 1;
 
     updateOrder();
 }
 
 function removeItem(name){
 
-    order[name].quantity--;
-
-    if(order[name].quantity<=0){
-        delete order[name];
-    }
+    delete order[name];
 
     updateOrder();
 }
