@@ -252,9 +252,9 @@ const menu = {
         {name:"Energy Drink", price:200}
     ],
 
-    "Nachspeise": [
-        {name:"Poki", price:150},
-        {name:"Erbeer Mochi", price:90}
+    "Antipasti": [
+        {name:"Antipasto Italiano della Casa", price:110},
+        {name:"Bruschetta Classica", price:165}
     ],
 
     "Hauptspeise": [
@@ -395,7 +395,7 @@ menu["Bevande"].forEach((item) => {
 
     const dessertTitle = document.createElement("div");
     dessertTitle.className = "category";
-    dessertTitle.innerHTML = "Nachspeise";
+    dessertTitle.innerHTML = "Pizza";
 
     sushiBox.appendChild(dessertTitle);
 
@@ -431,7 +431,7 @@ menu["Bevande"].forEach((item) => {
 
     menuDiv.appendChild(sushiBox);
 
-    ["Hauptspeise", "Getränke"].forEach(category => {
+    ["Antipasti", "Pasta"].forEach(category => {
 
         const categoryBox = document.createElement("div");
         categoryBox.className = "category-box";
